@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     groq_model: str = "llama-3.1-70b-versatile"
 
     redis_url: str = "redis://localhost:6379/0"
+    database_url: str = ""
 
 
 settings = Settings()

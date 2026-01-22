@@ -32,6 +32,10 @@ def _system_prompt(mode: str) -> str:
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(body: ChatRequest, user: AuthUser = CurrentUser) -> ChatResponse:
+    # For debugging: log the user info
+    print(f"Chat request from user: {user.id} - {user.email}")
+    print(f"Message: {body.message}")
+    print(f"Mode: {body.mode}")
     # MVP: sin RAG aún (luego: recuperar chunks por task_id y añadir citas)
     if not settings.groq_api_key:
         raise HTTPException(status_code=500, detail="Server misconfigured: GROQ_API_KEY is missing")
@@ -52,4 +56,5 @@ async def chat(body: ChatRequest, user: AuthUser = CurrentUser) -> ChatResponse:
         return ChatResponse(answer=answer.strip())
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Groq error: {e}")
+
 
